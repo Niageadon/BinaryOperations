@@ -3,28 +3,103 @@
   <v-container grid-list-md text-xs-center>
     <v-layout row wrap>
 
+      <!--First register-->
       <v-flex xs12>
-        <h1>First register</h1>
+      <v-layout row wrap style="background-color: rgb(68,68,68)">
+        <v-flex xs12>
+          <h1>First register</h1>
+        </v-flex>
+        <v-flex v-for="(num, id) in firstRegister" :key="id" xs1>
+          <v-card v-on:click="firstRegister[id].val ^= 1" :color="num.val === 1? '#80B12C' : '#BF5030'">
+            <v-card-text style="text-align: center" class="display-1 ">{{num.val}}</v-card-text>
+              <v-divider></v-divider>
+            <div style="background-color: #4188D2">{{num.weight}}</div>
+          </v-card>
+        </v-flex>
+        <v-flex xs4>
+          <v-card  color="#0D58A6" class="px-0">
+            <v-card-text class="display-1">{{getFirstRegisterValue}} </v-card-text>
+            <div style="background-color: #4188D2"> &#8721 </div>
+          </v-card>
+        </v-flex>
+      </v-layout>
       </v-flex>
 
-      <v-flex v-for="(num, id) in firstRegisterByte" :key="id" xs1>
-        <v-card v-on:click="firstRegisterByte[id].val ^= 1" :color="num.color">
-          <v-card-text  class="px-0">{{num.val}}</v-card-text>
-          <v-divider></v-divider>
-          <div style="background-color: #4188D2">{{num.weight}}</div>
-        </v-card>
-      </v-flex>
-      <v-flex xs2>
-        <v-card  color="#0D58A6" class="px-0">
-          <v-card-text>{{firstRegisterValue}} </v-card-text>
-          <div style="background-color: #4188D2">&#8721</div>
-        </v-card>
+      <!--Second register-->
+      <v-flex xs12 mt-4>
+        <v-layout row wrap style="background-color: rgb(68,68,68)">
+          <v-flex xs12>
+            <h1>Second register</h1>
+          </v-flex>
+          <v-flex v-for="(num, id) in secondRegister" :key="id" xs1>
+            <v-card v-on:click="secondRegister[id].val ^= 1" :color="num.val === 1? '#80B12C' : '#BF5030'">
+              <v-card-text class="display-1 ">{{num.val}}</v-card-text>
+              <v-divider></v-divider>
+              <div style="background-color: #4188D2">{{num.weight}}</div>
+            </v-card>
+          </v-flex>
+          <v-flex xs4>
+            <v-card  color="#0D58A6" class="px-0">
+              <v-card-text class="display-1">{{getSecondRegisterValue}} </v-card-text>
+              <div style="background-color: #4188D2"> &#8721 </div>
+            </v-card>
+          </v-flex>
+        </v-layout>
       </v-flex>
 
+      <!--Binary operations-->
+      <v-flex xs12 mt-4>
+        <v-layout row wrap align-center style="background-color: #e25b7c" >
+          <v-flex v-for="(item, id) in binaryOperations" :key="id">
+            <v-card v-on:click="selectBinaryOperation(item.name)">
+              <v-card-text>{{item.code}}</v-card-text>
+            </v-card>
+          </v-flex>
+
+          <v-flex xs3>
+            <v-layout row align-center>
+              <v-flex  md6>
+                <v-card>
+                  <v-card-text> Count: {{operateCount}} </v-card-text>
+                </v-card>
+              </v-flex>
+
+              <v-flex >
+                <v-layout column>
+                  <v-btn v-on:click="getCount('add')"> + </v-btn>
+                  <v-btn v-on:click="getCount('remove')"> - </v-btn>
+                </v-layout>
+              </v-flex>
+            </v-layout>
+          </v-flex>
+        </v-layout>
+      </v-flex>
+
+
+
+      <!--Result register-->
+      <v-flex xs12 mt-5 pt-5>
+        <v-layout row wrap style="background-color: rgb(68,68,68)">
+          <v-flex xs12>
+            <h1>Result register</h1>
+          </v-flex>
+          <v-flex v-for="(num, id) in resultRegister" :key="id" xs1>
+            <v-card v-on:click="resultRegister[id].val ^= 1" :color="num.val === 1? '#80B12C' : '#BF5030'">
+              <v-card-text class="display-1 ">{{num.val}}</v-card-text>
+              <v-divider></v-divider>
+              <div style="background-color: #4188D2">{{num.weight}}</div>
+            </v-card>
+          </v-flex>
+          <v-flex xs4>
+            <v-card  color="#0D58A6" class="px-0">
+              <v-card-text class="display-1">{{resultValue}} </v-card-text>
+              <div style="background-color: #4188D2"> &#8721 </div>
+            </v-card>
+          </v-flex>
+        </v-layout>
+      </v-flex>
     </v-layout>
-
   </v-container>
-
 </div>
 </template>
 
@@ -35,32 +110,187 @@
     data(){
       return{
         //https://colorscheme.ru/#0b320w0w0w0w0
-        firstRegisterByte: [
-          {id: 0, val: 0, weight: 128, color: '#BF5030'},
-          {id: 1, val: 0, weight: 64, color: '#BF5030'},
-          {id: 2, val: 0, weight: 32, color: '#BF5030'},
-          {id: 3, val: 0, weight: 16, color: '#BF5030'},
-          {id: 4, val: 0, weight: 8, color: '#BF5030'},
-          {id: 5, val: 0, weight: 4, color: '#BF5030'},
-          {id: 6, val: 0, weight: 2, color: '#BF5030'},
-          {id: 7, val: 0, weight: 1, color: '#BF5030'},
+        binaryOperations:[
+          {id: 0, name: 'and', needSecondRegister: true, code: '&'},
+          {id: 1, name: 'or', needSecondRegister: true, code: '|'},
+          {id: 2, name: 'Xor', needSecondRegister: true, code: '^'},
+          {id: 3, name: 'not',needSecondRegister: false, code: '~'},
+          {id: 4, name: 'leftShift',needSecondRegister: false,  code: '<<'},
+          {id: 5, name: 'rightShift',needSecondRegister: false,  code: '>>'},
+          {id: 6, name: 'rightRightShift',needSecondRegister: false,  code: '>>>'},
         ],
-        firstRegisterValue: firstRegisterByte[1].val,
+        firstRegister: [
+          {id: 0, val: 0, weight: 128},
+          {id: 1, val: 0, weight: 64},
+          {id: 2, val: 0, weight: 32},
+          {id: 3, val: 0, weight: 16},
+          {id: 4, val: 0, weight: 8},
+          {id: 5, val: 0, weight: 4},
+          {id: 6, val: 0, weight: 2},
+          {id: 7, val: 0, weight: 1},
+        ],
+        secondRegister: [
+          {id: 0, val: 0, weight: 128},
+          {id: 1, val: 0, weight: 64},
+          {id: 2, val: 0, weight: 32},
+          {id: 3, val: 0, weight: 16},
+          {id: 4, val: 0, weight: 8},
+          {id: 5, val: 0, weight: 4},
+          {id: 6, val: 0, weight: 2},
+          {id: 7, val: 0, weight: 1},
+        ],
+        resultRegister:[
+          {id: 0, val: 0, weight: 128},
+          {id: 1, val: 0, weight: 64},
+          {id: 2, val: 0, weight: 32},
+          {id: 3, val: 0, weight: 16},
+          {id: 4, val: 0, weight: 8},
+          {id: 5, val: 0, weight: 4},
+          {id: 6, val: 0, weight: 2},
+          {id: 7, val: 0, weight: 1},
+        ],
+        resultValue: 0,
+        operateCount: 1,
+
       }
     },
 
     computed: {
-      changeCardColor: function () {
-        return 1
-      }
-
+      getFirstRegisterValue(){
+        let weight = 128;
+        let val =  0;
+        for (let i = 0 ; i < this.firstRegister.length; i++){
+          val += weight * this.firstRegister[i].val;
+          weight /= 2;
+        }
+        return val
+      },
+      getSecondRegisterValue(){
+        let weight = 128;
+        let val =  0;
+        for (let i = 0; i < this.secondRegister.length; i++){
+          val += weight * this.secondRegister[i].val;
+          weight /= 2;
+        }
+        return val
+      },
 
     },
 
     methods:{
-      setBit(){
+      selectBinaryOperation(operator){
+        switch (operator) {
+          case ('and'): {this.binaryAnd()} break;
+          case ('or'): {this.binaryOr()} break;
+          case ('Xor'): {this.binaryXOr()} break;
+          case ('not'): {this.binaryNot()} break;
+          case ('leftShift'): {this.leftShift()} break;
+          case ('rightShift'): {this.rightShift()} break;
+          case ('rightRightShift'): {this.rightRightShift()} break;
+
+
+
+        }
+      },
+
+      binaryAnd(){
+        let val = 0;
+        let weight = 128;
+        for (let i = 0; i < this.resultRegister.length; i++){
+          val += (this.firstRegister[i].val & this.secondRegister[i].val) * weight;
+          weight /= 2;
+        }
+        this.resultValue = val;
+      },
+      binaryOr(){
+        let val = 0;
+        let weight = 128;
+        for (let i = 0; i < this.resultRegister.length; i++){
+          val += (this.firstRegister[i].val | this.secondRegister[i].val) * weight;
+          weight /= 2;
+        }
+        this.resultValue = val;
+      },
+      binaryXOr(){
+        let val = 0;
+        let weight = 128;
+        for (let i = 0; i < this.resultRegister.length; i++){
+          val += (this.firstRegister[i].val ^ this.secondRegister[i].val) * weight;
+          weight /= 2;
+        }
+        this.resultValue = val;
+      },
+      binaryNot(){
+        //fake js 'not', just for example
+        let val = 0;
+        let weight = 128;
+        for (let i = 0; i < this.resultRegister.length; i++){
+          val += (this.firstRegister[i].val === 1? 0: 1) * weight;
+          weight /= 2;
+        }
+        this.resultValue = val;
+      },
+      leftShift(){
+        let val = 0;
+        let weight = 128;
+        for (let i = 0; i < this.resultRegister.length; i++){
+          val += (this.firstRegister[i].val << this.operateCount) * weight;
+          weight /= 2;
+        }
+        this.resultValue = val;
+      },
+
+      rightShift(){
+        let val = 0;
+        let weight = 128;
+        let flag = true;
+        for (let i = 0; i < this.resultRegister.length - 1; i++){
+          if (flag && (this.firstRegister[i].val === 1)){
+            val += this.firstRegister[i].val * weight; flag = false;
+          }
+          weight /= (2 * this.operateCount);
+          val += (this.firstRegister[i].val) * weight;
+        }
+        this.resultValue = val;
+      },
+      rightRightShift(){
+        let val = 0;
+        let weight = 128;
+        for (let i = 0; i < this.resultRegister.length; i++){
+          weight /= 2;
+          val += (this.firstRegister[i].val) * weight;
+        }
+        this.resultValue = val;
+      },
+
+      getCount(operator){
+        if(operator === 'add'){
+          if(this.operateCount > 6) return;
+          this.operateCount += 1
+
+        }
+        if(operator === 'remove'){
+          if(this.operateCount < 2) return;
+          this.operateCount -= 1;
+
+        }
+      },
+      getResultRegister(){
+        let val = this.resultValue;
+        let weight = -1;
+        if(this.resultValue%2 === 0){
+          let i = Math.log2(val);
+
+          for(i; i > 1; i--){
+            this.resultRegister[i] =
+          }
+        }
 
       }
+    },
+
+    watch:{
+
     }
   }
 </script>
