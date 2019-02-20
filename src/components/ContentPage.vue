@@ -83,9 +83,22 @@
             <h1>Result register</h1>
           </v-flex>
 
-          <v-flex xs10>
+          <v-flex xs12>
             <v-layout wrap>
-              <v-flex v-for="(num, id) in resultRegister" :key="id" xs2>
+              <v-flex v-for="(num, id) in getResultFirstByte" :key="num.id" xs1>
+                <v-card v-on:click="resultRegister[id].val ^= 1" :color="num.val === 1? '#80B12C' : '#BF5030'">
+                  <v-card-text class="display-1 ">{{num.val}}</v-card-text>
+                  <v-divider></v-divider>
+                  <div style="background-color: #4188D2">{{num.weight}}</div>
+                </v-card>
+              </v-flex>
+              <v-flex xs4>
+                <v-card  color="#0D58A6" class="px-0">
+                  <v-card-text class="display-1">{{resultValue}} </v-card-text>
+                  <div style="background-color: #4188D2"> &#8721 </div>
+                </v-card>
+              </v-flex>
+              <v-flex v-for="(num, id) in getResultSecondByte" :key="num.id" xs1>
                 <v-card v-on:click="resultRegister[id].val ^= 1" :color="num.val === 1? '#80B12C' : '#BF5030'">
                   <v-card-text class="display-1 ">{{num.val}}</v-card-text>
                   <v-divider></v-divider>
@@ -95,12 +108,7 @@
             </v-layout>
           </v-flex>
 
-          <v-flex xs2>
-            <v-card  color="#0D58A6" class="px-0">
-              <v-card-text class="display-1">{{resultValue}} </v-card-text>
-              <div style="background-color: #4188D2"> &#8721 </div>
-            </v-card>
-          </v-flex>
+
 
         </v-layout>
       </v-flex>
@@ -113,17 +121,17 @@
   export default {
     name: "ContentPage",
 
-    data(){
-      return{
+    data() {
+      return {
         //https://colorscheme.ru/#0b320w0w0w0w0
-        binaryOperations:[
+        binaryOperations: [
           {id: 0, name: 'and', needSecondRegister: true, code: '&'},
           {id: 1, name: 'or', needSecondRegister: true, code: '|'},
           {id: 2, name: 'Xor', needSecondRegister: true, code: '^'},
-          {id: 3, name: 'not',needSecondRegister: false, code: '~'},
-          {id: 4, name: 'leftShift',needSecondRegister: false,  code: '<<'},
-          {id: 5, name: 'rightShift',needSecondRegister: false,  code: '>>'},
-          {id: 6, name: 'rightRightShift',needSecondRegister: false,  code: '>>>'},
+          {id: 3, name: 'not', needSecondRegister: false, code: '~'},
+          {id: 4, name: 'leftShift', needSecondRegister: false, code: '<<'},
+          {id: 5, name: 'rightShift', needSecondRegister: false, code: '>>'},
+          {id: 6, name: 'rightRightShift', needSecondRegister: false, code: '>>>'},
         ],
         firstRegister: [
           {id: 0, val: 0, weight: 128},
@@ -145,7 +153,7 @@
           {id: 6, val: 0, weight: 2},
           {id: 7, val: 0, weight: 1},
         ],
-        resultRegister:[
+        resultRegister: [
           {id: 0, val: 0, weight: 32768},
           {id: 1, val: 0, weight: 16384},
           {id: 2, val: 0, weight: 8192},
@@ -170,45 +178,78 @@
     },
 
     computed: {
-      getFirstRegisterValue(){
+      getFirstRegisterValue() {
         let weight = 128;
-        let val =  0;
-        for (let i = 0 ; i < this.firstRegister.length; i++){
+        let val = 0;
+        for (let i = 0; i < this.firstRegister.length; i++) {
           val += weight * this.firstRegister[i].val;
           weight /= 2;
         }
         return val
       },
-      getSecondRegisterValue(){
+      getSecondRegisterValue() {
         let weight = 128;
-        let val =  0;
-        for (let i = 0; i < this.secondRegister.length; i++){
+        let val = 0;
+        for (let i = 0; i < this.secondRegister.length; i++) {
           val += weight * this.secondRegister[i].val;
           weight /= 2;
         }
         return val
       },
-
+      getResultSecondByte() {
+        return this.resultRegister.slice(0, 8);
+      },
+      getResultFirstByte() {
+        return this.resultRegister.slice(8, 17);
+      },
     },
 
-    methods:{
-      selectBinaryOperation(operator){
+    methods: {
+      selectBinaryOperation(operator) {
         this.clearResultRegister();
         let firstValue = this.getFirstRegisterValue;
         let secondValue = this.getSecondRegisterValue;
 
         switch (operator) {
-          case ('and'): {this.binaryAnd(firstValue, secondValue); this.getResultRegister()} break;
-          case ('or'): {this.binaryOr(firstValue, secondValue); this.getResultRegister()} break;
-          case ('Xor'): {this.binaryXOr(firstValue, secondValue); this.getResultRegister()} break;
-          case ('not'): {this.binaryNot(); this.getResultRegister()} break;
-          case ('leftShift'): {this.leftShift(firstValue); this.getResultRegister()} break;
-          case ('rightShift'): {this.rightShift(firstValue); this.getResultRegister()} break;
-          case ('rightRightShift'): {this.rightRightShift(); this.getResultRegister()} break;
+          case ('and'): {
+            this.binaryAnd(firstValue, secondValue);
+            this.getResultRegister()
+          }
+            break;
+          case ('or'): {
+            this.binaryOr(firstValue, secondValue);
+            this.getResultRegister()
+          }
+            break;
+          case ('Xor'): {
+            this.binaryXOr(firstValue, secondValue);
+            this.getResultRegister()
+          }
+            break;
+          case ('not'): {
+            this.binaryNot();
+            this.getResultRegister()
+          }
+            break;
+          case ('leftShift'): {
+            this.leftShift(firstValue);
+            this.getResultRegister()
+          }
+            break;
+          case ('rightShift'): {
+            this.rightShift(firstValue);
+            this.getResultRegister()
+          }
+            break;
+          case ('rightRightShift'): {
+            this.rightRightShift();
+            this.getResultRegister()
+          }
+            break;
         }
       },
 
-      binaryAnd(firstValue, secondValue){
+      binaryAnd(firstValue, secondValue) {
         this.resultValue = firstValue & secondValue;
         /*let val = 0;
         let weight = 128;
@@ -218,7 +259,7 @@
         }
         this.resultValue = val;*/
       },
-      binaryOr(firstValue, secondValue){
+      binaryOr(firstValue, secondValue) {
         this.resultValue = firstValue | secondValue;
         /*let val = 0;
         let weight = 128;
@@ -228,7 +269,7 @@
         }
         this.resultValue = val;*/
       },
-      binaryXOr(firstValue, secondValue){
+      binaryXOr(firstValue, secondValue) {
         this.resultValue = firstValue ^ secondValue;
         /*let val = 0;
         let weight = 128;
@@ -238,17 +279,17 @@
         }
         this.resultValue = val;*/
       },
-      binaryNot(){
+      binaryNot() {
         //fake js 'not', just for example
         let val = 0;
-        let weight = 128;
-        for (let i = 0; i < this.resultRegister.length; i++){
-          val += (this.firstRegister[i].val === 1? 0: 1) * weight;
+        let weight = 32768;
+        for (let i = 0; i < this.resultRegister.length; i++) {
+          val += (this.firstRegister[i].val === 1 ? 0 : 1) * weight;
           weight /= 2;
         }
         this.resultValue = val;
       },
-      leftShift(firstValue){
+      leftShift(firstValue) {
         this.resultValue = firstValue << this.operateCount;
         /*let val = 0;
         let weight = 128;
@@ -258,7 +299,7 @@
         }
         this.resultValue = val;*/
       },
-      rightShift(firstValue){
+      rightShift(firstValue) {
         this.resultValue = firstValue >> this.operateCount
         /*let val = 0;
         let weight = 128;
@@ -272,48 +313,44 @@
         }
         this.resultValue = val;*/
       },
-      rightRightShift(){
+      rightRightShift() {
         let val = 0;
         let weight = 128;
-        for (let i = 0; i < this.resultRegister.length; i++){
+        for (let i = 0; i < this.resultRegister.length; i++) {
           weight /= 2;
           val += (this.firstRegister[i].val) * weight;
         }
         this.resultValue = val;
       },
 
-      clearResultRegister(){
-        for(let i = 0; i < 8; i++){
+      clearResultRegister() {
+        for (let i = 0; i < 16; i++) {
           this.resultRegister[i].val = 0;
         }
       },
-      getCount(operator){
-        if(operator === 'add'){
-          if(this.operateCount > 6) return;
+      getCount(operator) {
+        if (operator === 'add') {
+          if (this.operateCount > 7) return;
           this.operateCount += 1
 
         }
-        if(operator === 'remove'){
-          if(this.operateCount < 2) return;
+        if (operator === 'remove') {
+          if (this.operateCount < 2) return;
           this.operateCount -= 1;
 
         }
       },
-      getResultRegister(){
+      getResultRegister() {
         let val = this.resultValue.toString(2);
-
-        //console.log(val.length);
-        for (let i = val.length - 1 ; i >=  0; i--){
-          this.resultRegister[8 - val.length + i].val = +val[i];
+        for (let i = val.length - 1; i >= 0; i--) {
+          this.resultRegister[16 - val.length + i].val = +val[i];
         }
-        }
+      }
 
 
     },
 
-    watch:{
-
-    }
+    watch: {}
   }
 </script>
 
