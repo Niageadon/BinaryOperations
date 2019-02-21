@@ -51,7 +51,7 @@
       <v-flex xs12 mt-4>
         <v-layout xs11 row wrap align-center >
           <v-flex xs1 v-for="(item, id) in binaryOperations" :key="id">
-            <v-card hover v-on:click="selectBinaryOperation(item.name)">
+            <v-card :color="item.selected === true? '#619900' : '#8a8a8a'" hover v-on:click="selectOperationButton(id)">
               <v-card-text>{{item.code}}</v-card-text>
             </v-card>
           </v-flex>
@@ -123,13 +123,13 @@
       return {
         //https://colorscheme.ru/#0b320w0w0w0w0
         binaryOperations: [
-          {id: 0, name: 'and', needSecondRegister: true, code: '&'},
-          {id: 1, name: 'or', needSecondRegister: true, code: '|'},
-          {id: 2, name: 'Xor', needSecondRegister: true, code: '^'},
-          {id: 3, name: 'not', needSecondRegister: false, code: '~'},
-          {id: 4, name: 'leftShift', needSecondRegister: false, code: '<<'},
-          {id: 5, name: 'rightShift', needSecondRegister: false, code: '>>'},
-          {id: 6, name: 'rightRightShift', needSecondRegister: false, code: '>>>'},
+          {id: 0, name: 'and', selected: true, code: '&'},
+          {id: 1, name: 'or', selected: false, code: '|'},
+          {id: 2, name: 'Xor', selected: false, code: '^'},
+          {id: 3, name: 'not', selected: false, code: '~'},
+          {id: 4, name: 'leftShift', selected: false, code: '<<'},
+          {id: 5, name: 'rightShift', selected: false, code: '>>'},
+          {id: 6, name: 'rightRightShift', selected: false, code: '>>>'},
         ],
         firstRegister: [
           {id: 0, val: 0, weight: 128},
@@ -171,6 +171,7 @@
         ],
         resultValue: 0,
         operateCount: 1,
+        currentOperation: ''
 
       }
     },
@@ -203,12 +204,12 @@
     },
 
     methods: {
-      selectBinaryOperation(operator) {
+      selectBinaryOperation() {
         this.clearResultRegister();
         let firstValue = this.getFirstRegisterValue;
         let secondValue = this.getSecondRegisterValue;
 
-        switch (operator) {
+        switch (this.currentOperation) {
           case ('and'): {
             this.binaryAnd(firstValue, secondValue);
             this.getResultRegister()
@@ -245,6 +246,14 @@
           }
             break;
         }
+      },
+      selectOperationButton(buttonNum){
+        for(let i = 0; i < 7; i++){
+          this.binaryOperations[i].selected = false
+        }
+        this.binaryOperations[buttonNum].selected = true;
+        this.currentOperation = this.binaryOperations[buttonNum].code;
+        this.selectBinaryOperation()
       },
 
       binaryAnd(firstValue, secondValue) {
