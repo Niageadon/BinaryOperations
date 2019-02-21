@@ -11,7 +11,7 @@
         </v-flex>
         <v-flex v-for="(num, id) in firstRegister" :key="id" xs1>
           <v-card v-on:click="firstRegister[id].val ^= 1" :color="num.val === 1? '#80B12C' : '#BF5030'">
-            <v-card-text style="text-align: center" class="display-1 ">{{num.val}}</v-card-text>
+            <v-card-text style="text-align: center"  class="display-1">{{num.val}}</v-card-text>
               <v-divider></v-divider>
             <div style="background-color: #4188D2">{{num.weight}}</div>
           </v-card>
@@ -86,7 +86,7 @@
           <v-flex xs12>
             <v-layout wrap>
               <v-flex v-for="(num, id) in getResultFirstByte" :key="num.id" xs1>
-                <v-card v-on:click="resultRegister[id].val ^= 1" :color="num.val === 1? '#80B12C' : '#BF5030'">
+                <v-card v-on:click="resultRegister[id+8].val ^= 1" :color="num.val === 1? '#80B12C' : '#BF5030'">
                   <v-card-text class="display-1 ">{{num.val}}</v-card-text>
                   <v-divider></v-divider>
                   <div style="background-color: #4188D2">{{num.weight}}</div>
@@ -227,7 +227,7 @@
           }
             break;
           case ('not'): {
-            this.binaryNot();
+            this.binaryNot(firstValue);
             this.getResultRegister()
           }
             break;
@@ -242,7 +242,7 @@
           }
             break;
           case ('rightRightShift'): {
-            this.rightRightShift();
+            this.rightRightShift(firstValue);
             this.getResultRegister()
           }
             break;
@@ -271,33 +271,14 @@
       },
       binaryXOr(firstValue, secondValue) {
         this.resultValue = firstValue ^ secondValue;
-        /*let val = 0;
-        let weight = 128;
-        for (let i = 0; i < this.resultRegister.length; i++){
-          val += (this.firstRegister[i].val ^ this.secondRegister[i].val) * weight;
-          weight /= 2;
-        }
-        this.resultValue = val;*/
       },
-      binaryNot() {
+      binaryNot(firstValue) {
         //fake js 'not', just for example
-        let val = 0;
-        let weight = 32768;
-        for (let i = 0; i < this.resultRegister.length; i++) {
-          val += (this.firstRegister[i].val === 1 ? 0 : 1) * weight;
-          weight /= 2;
-        }
-        this.resultValue = val;
+        this.resultValue = 65280 - firstValue - 1 + 256
       },
       leftShift(firstValue) {
         this.resultValue = firstValue << this.operateCount;
-        /*let val = 0;
-        let weight = 128;
-        for (let i = 0; i < this.resultRegister.length; i++){
-          val += (this.firstRegister[i].val << this.operateCount) * weight;
-          weight /= 2;
-        }
-        this.resultValue = val;*/
+
       },
       rightShift(firstValue) {
         this.resultValue = firstValue >> this.operateCount
@@ -313,14 +294,15 @@
         }
         this.resultValue = val;*/
       },
-      rightRightShift() {
-        let val = 0;
+      rightRightShift(firstValue) {
+        this.resultValue = firstValue >>> this.operateCount
+        /*let val = 0;
         let weight = 128;
         for (let i = 0; i < this.resultRegister.length; i++) {
           weight /= 2;
           val += (this.firstRegister[i].val) * weight;
         }
-        this.resultValue = val;
+        this.resultValue = val;*/
       },
 
       clearResultRegister() {
