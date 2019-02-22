@@ -1,16 +1,16 @@
 <template>
 <div>
-  <v-container grid-list-md text-xs-center>
+  <v-container class="noselect" grid-list-md text-xs-center>
     <v-layout row wrap>
 
       <!--First register-->
       <v-flex xs12>
-      <v-layout row wrap style="background-color: rgb(68,68,68)">
+      <v-layout row wrap style="background-color: #403e3e">
         <v-flex xs12>
           <h1>First register</h1>
         </v-flex>
         <v-flex v-for="(num, id) in firstRegister" :key="id" xs1>
-          <v-card hover v-on:click="firstRegister[id].val ^= 1" :color="num.val === 1? '#80B12C' : '#BF5030'">
+          <v-card hover v-on:click="firstRegister[id].val ^= 1; selectBinaryOperation()" :color="num.val === 1? '#80B12C' : '#BF5030'">
             <v-card-text style="text-align: center"  class="display-1">{{num.val}}</v-card-text>
               <v-divider></v-divider>
             <div style="background-color: #4188D2">{{num.weight}}</div>
@@ -27,12 +27,12 @@
 
       <!--Second register-->
       <v-flex xs12 >
-        <v-layout row wrap style="background-color: rgb(68,68,68)">
+        <v-layout row wrap style="background-color: #403e3e">
           <v-flex xs12>
             <h1>Second register</h1>
           </v-flex>
           <v-flex v-for="(num, id) in secondRegister" :key="id" xs1>
-            <v-card hover v-on:click="secondRegister[id].val ^= 1" :color="num.val === 1? '#80B12C' : '#BF5030'">
+            <v-card hover v-on:click="secondRegister[id].val ^= 1; selectBinaryOperation()" :color="num.val === 1? '#80B12C' : '#BF5030'">
               <v-card-text class="display-1 ">{{num.val}}</v-card-text>
               <v-divider></v-divider>
               <div style="background-color: #4188D2">{{num.weight}}</div>
@@ -49,7 +49,7 @@
 
       <!--Binary operations-->
       <v-flex xs12 mt-4>
-        <v-layout xs11 row wrap align-center >
+        <v-layout xs12 row wrap align-center >
           <v-flex xs1 v-for="(item, id) in binaryOperations" :key="id">
             <v-card :color="item.selected === true? '#619900' : '#8a8a8a'" hover v-on:click="selectOperationButton(id)">
               <v-card-text>{{item.code}}</v-card-text>
@@ -66,8 +66,8 @@
 
               <v-flex >
                 <v-layout column>
-                  <v-btn v-on:click="getCount('add')"> + </v-btn>
-                  <v-btn v-on:click="getCount('remove')"> - </v-btn>
+                  <v-btn  v-on:click="getCount('add')"> + </v-btn>
+                  <v-btn  v-on:click="getCount('remove')"> - </v-btn>
                 </v-layout>
               </v-flex>
             </v-layout>
@@ -252,8 +252,8 @@
           this.binaryOperations[i].selected = false
         }
         this.binaryOperations[buttonNum].selected = true;
-        this.currentOperation = this.binaryOperations[buttonNum].code;
-        this.selectBinaryOperation()
+        this.currentOperation = this.binaryOperations[buttonNum].name;
+        this.selectBinaryOperation();
       },
 
       binaryAnd(firstValue, secondValue) {
@@ -344,5 +344,13 @@
 </script>
 
 <style scoped>
-
+  .noselect {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    -o-user-select: none;
+    user-select: none;
+  }
 </style>
