@@ -95,7 +95,7 @@
               <v-flex xs12 md8>
                 <v-layout row>
                   <v-flex v-for="num in getResultFirstByte" :key="num.id">
-                    <v-card  :color="num.val === 1? '#80B12C' : '#BF5030'">
+                    <v-card style="min-width: 35px" :color="num.val === 1? '#80B12C' : '#BF5030'">
                       <v-card-text class="display-1 px-0">{{num.val}}</v-card-text>
                       <v-divider></v-divider>
                       <div class="caption" style="background-color: #4188D2">{{num.weight}}</div>
@@ -108,8 +108,8 @@
               <v-flex xs12 md8>
                 <v-layout row>
                   <v-flex v-for="num in getResultSecondByte" :key="num.id">
-                    <v-card  :color="num.val === 1? '#80B12C' : '#BF5030'">
-                      <v-card-text class="display-1 px-0">{{num.val}}</v-card-text>
+                    <v-card style="min-width: 35px" :color="num.val === 1? '#80B12C' : '#BF5030'">
+                      <v-card-text  class="display-1 px-0">{{num.val}}</v-card-text>
                       <v-divider></v-divider>
                       <div class="caption" style="background-color: #4188D2">{{num.weight}}</div>
                     </v-card>
