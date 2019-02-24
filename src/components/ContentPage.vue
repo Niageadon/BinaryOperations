@@ -31,7 +31,7 @@
         <v-layout row wrap justify-space-between style="background-color: #403e3e">
           <v-flex  xs12>
             <h3>Second register</h3>
-          </v-flex>
+          </v-flex> <!--Desc-->
           <v-flex  v-for="(num, id) in secondRegister" :key="id">
             <v-card hover v-on:click="secondRegister[id].val ^= 1; selectBinaryOperation()" :color="num.val === 1? '#80B12C' : '#BF5030'">
               <v-card-text class="display-1 px-0 py-2">{{num.val}}</v-card-text>
@@ -82,36 +82,46 @@
 
 
       <!--Result register-->
-      <v-flex xs12 mt-5 >
-        <v-layout row wrap style="background-color: rgb(68,68,68)">
+      <v-flex mt-5 >
+          <v-layout row wrap style="background-color: rgb(68,68,68)">
           <v-flex xs12>
             <h1>Result register</h1>
           </v-flex> <!--desc-->
 
-          <v-flex xs12 >
+          <v-flex xs12 wrap>
             <v-layout wrap>
+
               <!--First register-->
-              <v-flex v-for="num in getResultFirstByte" :key="num.id">
-                <v-card  :color="num.val === 1? '#80B12C' : '#BF5030'">
-                  <v-card-text class="display-1 px-0">{{num.val}}</v-card-text>
-                  <v-divider></v-divider>
-                  <div class="caption" style="background-color: #4188D2">{{num.weight}}</div>
-                </v-card>
+              <v-flex xs12 md8>
+                <v-layout row>
+                  <v-flex v-for="num in getResultFirstByte" :key="num.id">
+                    <v-card  :color="num.val === 1? '#80B12C' : '#BF5030'">
+                      <v-card-text class="display-1 px-0">{{num.val}}</v-card-text>
+                      <v-divider></v-divider>
+                      <div class="caption" style="background-color: #4188D2">{{num.weight}}</div>
+                    </v-card>
+                  </v-flex>
+                </v-layout>
+              </v-flex>
+
+              <!--Second register-->
+              <v-flex xs12 md8>
+                <v-layout row>
+                  <v-flex v-for="num in getResultSecondByte" :key="num.id">
+                    <v-card  :color="num.val === 1? '#80B12C' : '#BF5030'">
+                      <v-card-text class="display-1 px-0">{{num.val}}</v-card-text>
+                      <v-divider></v-divider>
+                      <div class="caption" style="background-color: #4188D2">{{num.weight}}</div>
+                    </v-card>
+                  </v-flex>
+                </v-layout>
               </v-flex>
 
               <!--Result value-->
               <v-flex xs12 md4>
                 <v-card  color="#0D58A6" >
                   <v-card-text class="display-1">{{resultValue}} </v-card-text>
-                  <div style="background-color: #4188D2"> &#8721; </div>
-                </v-card>
-              </v-flex>
-
-              <v-flex v-for="num in getResultSecondByte" :key="num.id" xs1>
-                <v-card  :color="num.val === 1? '#80B12C' : '#BF5030'">
-                  <v-card-text class="display-1 px-0">{{num.val}}</v-card-text>
-                  <v-divider></v-divider>
-                  <div class="caption" style="background-color: #4188D2">{{num.weight}}</div>
+                  <div class="caption" style="background-color: #4188D2"> &#8721; </div>
                 </v-card>
               </v-flex>
             </v-layout>
