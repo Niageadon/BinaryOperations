@@ -5,20 +5,21 @@
 
       <!--First register-->
       <v-flex xs12>
-      <v-layout row wrap style="background-color: #403e3e">
+      <v-layout row wrap justify-space-between style="background-color: #403e3e">
         <v-flex xs12>
-          <h1>First register</h1>
-        </v-flex>
-        <v-flex v-for="(num, id) in firstRegister" :key="id" xs1>
-          <v-card hover v-on:click="firstRegister[id].val ^= 1; selectBinaryOperation()" :color="num.val === 1? '#80B12C' : '#BF5030'">
-            <v-card-text style="text-align: center"  class="display-1">{{num.val}}</v-card-text>
+          <h3>First register</h3>
+        </v-flex> <!--desc-->
+
+        <v-flex  v-for="(num, id) in firstRegister" :key="id">
+          <v-card  hover v-on:click="firstRegister[id].val ^= 1; selectBinaryOperation()" :color="num.val === 1? '#80B12C' : '#BF5030'">
+            <v-card-text    class="display-1 px-0 py-2">{{num.val}}</v-card-text>
               <v-divider></v-divider>
             <div style="background-color: #4188D2">{{num.weight}}</div>
           </v-card>
         </v-flex>
-        <v-flex xs4>
+        <v-flex xs12 md4>
           <v-card  color="#0D58A6" class="px-0">
-            <v-card-text class="display-1">{{getFirstRegisterValue}} </v-card-text>
+            <v-card-text class="display-1 py-2">{{getFirstRegisterValue}} </v-card-text>
             <div style="background-color: #4188D2"> &#8721; </div>
           </v-card>
         </v-flex>
@@ -27,20 +28,20 @@
 
       <!--Second register-->
       <v-flex xs12 >
-        <v-layout row wrap style="background-color: #403e3e">
-          <v-flex xs12>
-            <h1>Second register</h1>
+        <v-layout row wrap justify-space-between style="background-color: #403e3e">
+          <v-flex  xs12>
+            <h3>Second register</h3>
           </v-flex>
-          <v-flex v-for="(num, id) in secondRegister" :key="id" xs1>
+          <v-flex  v-for="(num, id) in secondRegister" :key="id">
             <v-card hover v-on:click="secondRegister[id].val ^= 1; selectBinaryOperation()" :color="num.val === 1? '#80B12C' : '#BF5030'">
-              <v-card-text class="display-1 ">{{num.val}}</v-card-text>
+              <v-card-text class="display-1 px-0 py-2">{{num.val}}</v-card-text>
               <v-divider></v-divider>
               <div style="background-color: #4188D2">{{num.weight}}</div>
             </v-card>
           </v-flex>
-          <v-flex xs4>
-            <v-card  color="#0D58A6" class="px-0">
-              <v-card-text class="display-1">{{getSecondRegisterValue}} </v-card-text>
+          <v-flex xs12 md4>
+            <v-card  color="#0D58A6" >
+              <v-card-text class="display-1 py-2">{{getSecondRegisterValue}} </v-card-text>
               <div style="background-color: #4188D2"> &#8721; </div>
             </v-card>
           </v-flex>
@@ -50,24 +51,28 @@
       <!--Binary operations-->
       <v-flex xs12 mt-4>
         <v-layout xs12 row wrap align-center >
-          <v-flex xs1 v-for="(item, id) in binaryOperations" :key="id">
+          <v-flex v-for="(item, id) in binaryOperations" :key="id">
             <v-card :color="item.selected === true? '#619900' : '#8a8a8a'" hover v-on:click="selectOperationButton(id)">
-              <v-card-text>{{item.code}}</v-card-text>
+              <v-card-text class="px-0">{{item.code}}</v-card-text>
             </v-card>
           </v-flex>
 
-          <v-flex xs3>
+          <v-flex md3 xs12>
             <v-layout row align-center>
               <v-flex  md6>
                 <v-card>
-                  <v-card-text> Count: {{operateCount}} </v-card-text>
+                  <v-card-text > Count: {{operateCount}} </v-card-text>
                 </v-card>
               </v-flex>
 
               <v-flex xs 1>
-                <v-layout column wrap>
-                  <v-btn  v-on:click="getCount('add'); selectBinaryOperation()"> + </v-btn>
-                  <v-btn  v-on:click="getCount('remove'); selectBinaryOperation()"> - </v-btn>
+                <v-layout align-start justify-center column fill-height>
+                  <v-flex class="pa-0 ma-0">
+                    <v-btn  round class="pa-0"  v-on:click="getCount('add'); selectBinaryOperation()"> + </v-btn>
+                  </v-flex>
+                  <v-flex class="pa-0 ma-0">
+                  <v-btn round class="pa-0" v-on:click="getCount('remove'); selectBinaryOperation()"> - </v-btn>
+                  </v-flex>
                 </v-layout>
               </v-flex>
             </v-layout>
@@ -81,28 +86,32 @@
         <v-layout row wrap style="background-color: rgb(68,68,68)">
           <v-flex xs12>
             <h1>Result register</h1>
-          </v-flex>
+          </v-flex> <!--desc-->
 
-          <v-flex xs12>
+          <v-flex xs12 >
             <v-layout wrap>
-              <v-flex v-for="num in getResultFirstByte" :key="num.id" xs1>
+              <!--First register-->
+              <v-flex v-for="num in getResultFirstByte" :key="num.id">
                 <v-card  :color="num.val === 1? '#80B12C' : '#BF5030'">
-                  <v-card-text class="display-1 ">{{num.val}}</v-card-text>
+                  <v-card-text class="display-1 px-0">{{num.val}}</v-card-text>
                   <v-divider></v-divider>
-                  <div style="background-color: #4188D2">{{num.weight}}</div>
+                  <div class="caption" style="background-color: #4188D2">{{num.weight}}</div>
                 </v-card>
               </v-flex>
-              <v-flex xs4>
-                <v-card  color="#0D58A6" class="px-0">
+
+              <!--Result value-->
+              <v-flex xs12 md4>
+                <v-card  color="#0D58A6" >
                   <v-card-text class="display-1">{{resultValue}} </v-card-text>
                   <div style="background-color: #4188D2"> &#8721; </div>
                 </v-card>
               </v-flex>
+
               <v-flex v-for="num in getResultSecondByte" :key="num.id" xs1>
                 <v-card  :color="num.val === 1? '#80B12C' : '#BF5030'">
-                  <v-card-text class="display-1 ">{{num.val}}</v-card-text>
+                  <v-card-text class="display-1 px-0">{{num.val}}</v-card-text>
                   <v-divider></v-divider>
-                  <div style="background-color: #4188D2">{{num.weight}}</div>
+                  <div class="caption" style="background-color: #4188D2">{{num.weight}}</div>
                 </v-card>
               </v-flex>
             </v-layout>
@@ -171,7 +180,7 @@
         ],
         resultValue: 0,
         operateCount: 1,
-        currentOperation: ''
+        currentOperation: 'and'
 
       }
     },
@@ -339,7 +348,11 @@
 
     },
 
-    watch: {}
+    watch: {},
+
+    created() {
+
+    }
   }
 </script>
 
