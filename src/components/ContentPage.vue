@@ -11,7 +11,7 @@
         </v-flex> <!--desc-->
 
         <v-flex  v-for="(num, id) in firstRegister" :key="id">
-          <v-card style="min-width: 35px"  hover v-on:click="firstRegister[id].val ^= 1; selectBinaryOperation()" :color="num.val === 1? '#80B12C' : '#BF5030'">
+          <v-card style="min-width: 28px"  hover v-on:click="firstRegister[id].val ^= 1; selectBinaryOperation()" :color="num.val === 1? '#80B12C' : '#BF5030'">
             <v-card-text    class="display-1 px-0 py-2">{{num.val}}</v-card-text>
               <v-divider></v-divider>
             <div style="background-color: #4188D2">{{num.weight}}</div>
@@ -33,7 +33,7 @@
             <h3>Second register</h3>
           </v-flex> <!--Desc-->
           <v-flex  v-for="(num, id) in secondRegister" :key="id">
-            <v-card style="min-width: 35px" hover v-on:click="secondRegister[id].val ^= 1; selectBinaryOperation()" :color="num.val === 1? '#80B12C' : '#BF5030'">
+            <v-card style="min-width: 28px" hover v-on:click="secondRegister[id].val ^= 1; selectBinaryOperation()" :color="num.val === 1? '#80B12C' : '#BF5030'">
               <v-card-text class="display-1 px-0 py-2">{{num.val}}</v-card-text>
               <v-divider></v-divider>
               <div style="background-color: #4188D2">{{num.weight}}</div>
@@ -52,7 +52,7 @@
       <v-flex xs12 mt-4>
         <v-layout xs12 row wrap align-center >
           <v-flex v-for="(item, id) in binaryOperations" :key="id">
-            <v-card style="min-width: 45px" :color="item.selected === true? '#619900' : '#8a8a8a'" hover v-on:click="selectOperationButton(id)">
+            <v-card style="min-width: 34px" :color="item.selected === true? '#619900' : '#8a8a8a'" hover v-on:click="selectOperationButton(id)">
               <v-card-text class="px-0">{{item.code}}</v-card-text>
             </v-card>
           </v-flex>
@@ -95,7 +95,7 @@
               <v-flex xs12 md8>
                 <v-layout row>
                   <v-flex v-for="num in getResultFirstByte" :key="num.id">
-                    <v-card style="min-width: 35px" :color="num.val === 1? '#80B12C' : '#BF5030'">
+                    <v-card style="min-width: 28px" :color="num.val === 1? '#80B12C' : '#BF5030'">
                       <v-card-text class="display-1 px-0">{{num.val}}</v-card-text>
                       <v-divider></v-divider>
                       <div class="caption" style="background-color: #4188D2">{{num.weight}}</div>
@@ -108,7 +108,7 @@
               <v-flex xs12 md8>
                 <v-layout row>
                   <v-flex v-for="num in getResultSecondByte" :key="num.id">
-                    <v-card style="min-width: 35px" :color="num.val === 1? '#80B12C' : '#BF5030'">
+                    <v-card style="min-width: 28px" :color="num.val === 1? '#80B12C' : '#BF5030'">
                       <v-card-text  class="display-1 px-0">{{num.val}}</v-card-text>
                       <v-divider></v-divider>
                       <div class="caption" style="background-color: #4188D2">{{num.weight}}</div>
@@ -171,8 +171,8 @@
           {id: 7, val: 0, weight: 1},
         ],
         resultRegister: [
-          {id: 0, val: 0, weight: 32768},
-          {id: 1, val: 0, weight: 16384},
+          {id: 0, val: 0, weight: '32k'},
+          {id: 1, val: 0, weight: '16k'},
           {id: 2, val: 0, weight: 8192},
           {id: 3, val: 0, weight: 4096},
           {id: 4, val: 0, weight: 2048},
