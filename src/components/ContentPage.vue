@@ -65,14 +65,8 @@
                 </v-card>
               </v-flex>
 
-              <v-flex xs 1>
+              <v-flex>
                 <v-layout align-start justify-center row fill-height>
-                  <!--<v-flex class="pa-0 ma-0">
-                    <v-btn  round class="pa-0 ma-1"  v-on:click="getCount('add'); selectBinaryOperation()"> + </v-btn>
-                  </v-flex>
-                  <v-flex class="pa-0 ma-0">
-                  <v-btn round class="pa-0 ma-1"  v-on:click="getCount('remove'); selectBinaryOperation()"> - </v-btn>
-                  </v-flex>-->
                   <v-flex >
                     <v-card style="min-width: 34px"  hover v-on:click="getCount('add'); selectBinaryOperation()">
                       <v-card-text class="px-0">+</v-card-text>
@@ -100,39 +94,41 @@
           </v-flex> <!--desc-->
 
           <v-flex xs12 wrap>
-            <v-layout wrap>
-
-              <!--First register-->
+            <v-layout row wrap>
               <v-flex xs12 md8>
-                <v-layout row>
-                  <v-flex v-for="num in getResultFirstByte" :key="num.id">
-                    <v-card style="min-width: 28px" :color="num.val === 1? '#80B12C' : '#BF5030'">
-                      <v-card-text class="display-1 px-0">{{num.val}}</v-card-text>
-                      <v-divider></v-divider>
-                      <div class="caption" style="background-color: #4188D2">{{num.weight}}</div>
-                    </v-card>
+                <v-layout wrap row>
+                  <!--First register-->
+                  <v-flex xs12>
+                    <v-layout row>
+                      <v-flex v-for="num in getResultFirstByte" :key="num.id">
+                        <v-card style="min-width: 28px" :color="num.val === 1? '#80B12C' : '#BF5030'">
+                          <v-card-text class="display-1 px-0">{{num.val}}</v-card-text>
+                          <v-divider></v-divider>
+                          <div class="caption" style="background-color: #4188D2">{{num.weight}}</div>
+                        </v-card>
+                      </v-flex>
+                    </v-layout>
+                  </v-flex>
+
+                  <!--Second register-->
+                  <v-flex xs12>
+                    <v-layout row>
+                      <v-flex v-for="num in getResultSecondByte" :key="num.id">
+                        <v-card style="min-width: 28px" :color="num.val === 1? '#80B12C' : '#BF5030'">
+                          <v-card-text  class="display-1 px-0">{{num.val}}</v-card-text>
+                          <v-divider></v-divider>
+                          <div class="caption" style="background-color: #4188D2">{{num.weight}}</div>
+                        </v-card>
+                      </v-flex>
+                    </v-layout>
                   </v-flex>
                 </v-layout>
               </v-flex>
-
-              <!--Second register-->
-              <v-flex xs12 md8>
-                <v-layout row>
-                  <v-flex v-for="num in getResultSecondByte" :key="num.id">
-                    <v-card style="min-width: 28px" :color="num.val === 1? '#80B12C' : '#BF5030'">
-                      <v-card-text  class="display-1 px-0">{{num.val}}</v-card-text>
-                      <v-divider></v-divider>
-                      <div class="caption" style="background-color: #4188D2">{{num.weight}}</div>
-                    </v-card>
-                  </v-flex>
-                </v-layout>
-              </v-flex>
-
               <!--Result value-->
-              <v-flex xs12 md4>
-                <v-card  color="#0D58A6" >
-                  <v-card-text class="display-1">{{resultValue}} </v-card-text>
-                  <div class="caption" style="background-color: #4188D2"> &#8721; </div>
+              <v-flex d-flex xs12 md4 >
+                <v-card class="resultContainer" color="#0D58A6" style="text-align: center;">
+                  <v-card-text class="display-1 resultContainer__text">{{resultValue}} </v-card-text>
+                  <div class="caption resultContainer__footer" style="background-color: #4188D2"> &#8721; </div>
                 </v-card>
               </v-flex>
             </v-layout>
@@ -386,5 +382,20 @@
     -ms-user-select: none;
     -o-user-select: none;
     user-select: none;
+  }
+  .resultContainer{
+    position: relative;
+  }
+  .resultContainer__footer{
+    display: block;
+    position: absolute;
+    width: 100%;
+    bottom: 0px;
+    background-color: azure
+  }
+  .resultContainer__text{
+    position: relative;
+    top: 50%;    
+    transform: translateY(-50%);
   }
 </style>
