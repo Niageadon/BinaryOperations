@@ -66,13 +66,24 @@
               </v-flex>
 
               <v-flex xs 1>
-                <v-layout align-start justify-center column fill-height>
-                  <v-flex class="pa-0 ma-0">
+                <v-layout align-start justify-center row fill-height>
+                  <!--<v-flex class="pa-0 ma-0">
                     <v-btn  round class="pa-0 ma-1"  v-on:click="getCount('add'); selectBinaryOperation()"> + </v-btn>
                   </v-flex>
                   <v-flex class="pa-0 ma-0">
                   <v-btn round class="pa-0 ma-1"  v-on:click="getCount('remove'); selectBinaryOperation()"> - </v-btn>
+                  </v-flex>-->
+                  <v-flex >
+                    <v-card style="min-width: 34px"  hover v-on:click="getCount('add'); selectBinaryOperation()">
+                      <v-card-text class="px-0">+</v-card-text>
+                    </v-card>
                   </v-flex>
+                  <v-flex >
+                    <v-card style="min-width: 34px"  hover v-on:click="getCount('remove'); selectBinaryOperation()">
+                      <v-card-text class="px-0">-</v-card-text>
+                    </v-card>
+                  </v-flex>
+
                 </v-layout>
               </v-flex>
             </v-layout>
